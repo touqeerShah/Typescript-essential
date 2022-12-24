@@ -85,19 +85,23 @@ let newobj: Record<string, string | number> = {
 }
 newobj.age = 12
 
-interface Query {
+interface Query<typeOfContract> {
     sort?: 'asc' | 'desc',
-    matches(vale): boolean
+    matches(vale: typeOfContract): boolean
 }
-type contractQuery = Omit<Partial<Record<keyof MyContract, Query>>,
-    "age" | "dob">
-type contractQuer2 = Partial<Pick<Record<keyof MyContract, Query>, "age" | "dob">>
-type RequiredQuery = Required<contractQuer2>
+// type contractQuery = Omit<Partial<Record<keyof MyContract, Query>>,
+//     "age" | "dob">
+// type contractQuer2 = Partial<Pick<Record<keyof MyContract, Query>, "age" | "dob">>
+// type RequiredQuery = Required<contractQuer2>
 
+//mapping example
+type contractQuery = {
+    [typeOfContract in keyof MyContract]?: Query<MyContract[typeOfContract]>
+}
 function SearchForContract(contracts: MyContract[], q: contractQuery) {
     return contracts.filter(contract => {
         for (const property of Object.keys(contract) as (keyof MyContract)[]) {
-            let propertyQuery = q[property]
+            let propertyQuery = q[property] as Query<MyContract[keyof MyContract]> // here we define which type of propert it will ne
             if (property && propertyQuery.matches(contract[property])) {
                 return true
             }

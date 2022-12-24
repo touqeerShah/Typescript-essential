@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": true,
+        "outDir": "build",
+        "target": "ES6",
+        "noEmit": false,
+        "module": "CommonJS",
+        "experimentalDecorators": true
+       ,"emitDecoratorMetadata": true 
+    },
+    "include": ["src/**/*"]
+}
